@@ -2,7 +2,8 @@ import { Response, Request } from "express";
 
 export const isMutant = (req: Request, res: Response) => {
 
-    if (!isVerifiableDna(req.body?.dna)) {
+    if (isInvalidDna(req.body?.dna)) {
+        console.log(isInvalidDna(req.body?.dna));
         res.status(400).send(`
             BAD REQUEST: dna must contain 6 string arrays of 6 characters each (valid characters: A,T,C,G)\n
             Your input: [${req.body?.dna}]`
@@ -14,24 +15,27 @@ export const isMutant = (req: Request, res: Response) => {
     else res.status(403).send('Forbidden');
 }
 
-function isVerifiableDna(dna: unknown) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function isInvalidDna(dna: any) {
     if (
-        dna && Array.isArray(dna) &&
-        dna.length !== 6 &&
-        dna.every(item => (item.length === 6 &&
-            typeof item === 'string' &&
-            hasValidAminos(item)))
+        !dna ||
+        !Array.isArray(dna) ||
+        dna.length !== 6 ||
+        dna.some(item => (
+            item.length !== 6 ||
+            typeof item !== 'string' ||
+            hasInvalidAminos(item)))
     ) { return true }
 }
 
-function hasValidAminos(nucleotide: string) {
+function hasInvalidAminos(nucleotide: string) {
     const validAminos = 'ATCG'
     for (const char of nucleotide) {
         if (!validAminos.includes(char)) {
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 
