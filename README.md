@@ -11,8 +11,7 @@ Esta aplicación es una API REST diseñada para responder a un enunciado que sol
 - [Instalación](#instalación)
 - [Configuración](#configuración)
 - [Ejecución](#ejecución)
-- [Endpoints](#endpoints) (pending)
-- [Licencia](#licencia)  (pending)
+- [Endpoints](#endpoints)
 
 ## Instalación
 
@@ -30,13 +29,22 @@ Esta aplicación es una API REST diseñada para responder a un enunciado que sol
     ```
 ## Ejecución
 
-1.  Compilar typescript
+1. Compila typescript
     ```bash
     npm run build
     ```
-3. Ejecutar script de inicio
-```bash
-  npm start
-```
+3. Ejecuta el script de inicio
+    ```bash
+      npm start
+    ```
+## Endpoints
+
+1. POST
+    ```
+        http://localhost:3000/mutant
+        body:{
+            dna:[<dna sequence>]
+        }
+    ```
 
     
